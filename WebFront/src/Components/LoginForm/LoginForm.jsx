@@ -21,7 +21,7 @@ function LoginForm() {
   }
 
   const onLogin = form => {
-
+    console.log(form);
   }
 
   return (
