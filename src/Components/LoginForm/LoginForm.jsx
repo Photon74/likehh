@@ -41,8 +41,9 @@ function LoginForm() {
           value={form.password}
           onChange={changeForm}
         /></div>
-        <Button
+        <Button className='mt-2'
           type="submit"
+          variant="contained"
           onClick={onLogin(form)}
         >
           Login
