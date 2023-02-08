@@ -1,11 +1,22 @@
 /* .login {
   display: flex;
-  width: 300px;
+  flex-direction: column;
+  width: 250px;
   height: 200px;
   margin: 10px;
+  text-align: left;
   align-content: left;
-}
+  gap: 2;
+} */
 
-div {
+/* .btn {
+  display: unset;
+} */
+/* div {
   margin: 5px;
+} */
+
+/* input:-webkit-autofill {
+  box-shadow: inset 0 0 0 1000px #fff;
+  transition: all 5000s ease-in-out;
 } */
