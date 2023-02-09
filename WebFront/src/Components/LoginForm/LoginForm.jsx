@@ -10,6 +10,11 @@ const INIT_FORM = {
 function LoginForm({ onLogin }) {
   const [form, setForm] = useState(INIT_FORM)
 
+  useEffect(() => {
+    setForm(INIT_FORM)
+  }, [])
+
+
   function changeForm(e) {
     e.persist()
     setForm(prev => {
@@ -48,6 +53,7 @@ function LoginForm({ onLogin }) {
           type="password"
           value={form.password}
           onChange={changeForm}
+          autoComplete='off'
         /></label>
       <button type="submit">
         Войти

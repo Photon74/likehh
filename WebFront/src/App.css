@@ -5,14 +5,37 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  overflow: auto;
 }
 
 .App {
+  width: 1180px;
   min-height: 100vh;
-  padding: 40px 0;
+  /* padding: 40px 0; */
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  background-color: aquamarine;
+}
+
+.content {
+  width: 880px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.menu_conteiner {
+  height: 100%;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(234, 234, 234);
 }
 
 form {
