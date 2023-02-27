@@ -1,55 +1,86 @@
 import './loginForm.css'
-import React, { useState } from 'react'
-import { Button } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Select, MenuItem, InputLabel } from '@mui/material'
 
 const INIT_FORM = {
   email: '',
   password: '',
+  role: '',
 }
 
-function LoginForm() {
+function LoginForm({ onLogin }) {
   const [form, setForm] = useState(INIT_FORM)
 
-  const changeForm = e => {
-    e.persist()
+  useEffect(() => {
+    setForm(INIT_FORM)
+  }, [])
+
+
+  function changeForm(e) {
+    // e.persist()
+    console.log(e.target.type)
     setForm(prev => {
       return {
         ...prev,
-        [e.target.name]: e.target.value,
+        [e.target.type]: e.target.value,
       }
     })
   }
 
-  const onLogin = form => {
-
+  function onSubmit(e) {
+    e.preventDefault()
+    console.log(form)
+    // onLogin(form)
+    setForm(INIT_FORM)
   }
 
+  useEffect(() => setForm(INIT_FORM), [])
+
   return (
-    <div className='login'>
-      <form>
-        <div><label>Email</label></div>
-        <div><input
+    <form onSubmit={onSubmit}>
+      <h2>Вход / Регистрация</h2>
+      <label>
+        Почта
+        <input
+          className='input'
           type="email"
-          name='email'
           value={form.email}
           onChange={changeForm}
-        /></div>
-        <div><label>Password</label></div>
-        <div><input
-          type="text"
-          name='password'
+          autoComplete='off'
+        /></label>
+      <label>
+        Пароль
+        <input
+          className='input'
+          type="password"
           value={form.password}
           onChange={changeForm}
-        /></div>
-        <Button className='mt-2'
-          type="submit"
-          variant="contained"
-          onClick={onLogin(form)}
-        >
-          Login
-        </Button>
-      </form>
-    </div>
+          autoComplete='off'
+        /></label>
+
+      <Select className='input'
+        type='role'
+        // label='Выберите роль'
+        size='small'
+        defaultValue={'role'}
+        onChange={changeForm}
+        required
+      >
+        <MenuItem value={'role'} type='role' disabled>
+          Role
+        </MenuItem>
+        <MenuItem value={'candidate'} type='role'>
+          Соискатель
+        </MenuItem>
+        <MenuItem value={'employer'} type='role'>
+          Работодатель
+        </MenuItem>
+      </Select >
+
+      <button type="submit">
+        Войти
+      </button>
+    </form >
   )
 }
 
