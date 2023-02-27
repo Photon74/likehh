@@ -1,10 +1,11 @@
 import './loginForm.css'
 import React, { useEffect, useState } from 'react'
-// import { Button, TextField } from '@mui/material'
+import { Select, MenuItem, InputLabel } from '@mui/material'
 
 const INIT_FORM = {
   email: '',
   password: '',
+  role: '',
 }
 
 function LoginForm({ onLogin }) {
@@ -16,7 +17,8 @@ function LoginForm({ onLogin }) {
 
 
   function changeForm(e) {
-    e.persist()
+    // e.persist()
+    console.log(e.target.type)
     setForm(prev => {
       return {
         ...prev,
@@ -55,10 +57,30 @@ function LoginForm({ onLogin }) {
           onChange={changeForm}
           autoComplete='off'
         /></label>
+
+      <Select className='input'
+        type='role'
+        // label='Выберите роль'
+        size='small'
+        defaultValue={'role'}
+        onChange={changeForm}
+        required
+      >
+        <MenuItem value={'role'} type='role' disabled>
+          Role
+        </MenuItem>
+        <MenuItem value={'candidate'} type='role'>
+          Соискатель
+        </MenuItem>
+        <MenuItem value={'employer'} type='role'>
+          Работодатель
+        </MenuItem>
+      </Select >
+
       <button type="submit">
         Войти
       </button>
-    </form>
+    </form >
   )
 }
 
