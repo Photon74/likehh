@@ -1,6 +1,8 @@
 ﻿@page "/fetchdata"
 
-@using MauiFront.Data
+<PageTitle>Weather forecast</PageTitle>
+
+@using BlazorFront.Data
 @inject WeatherForecastService ForecastService
 
 <h1>Weather forecast</h1>
@@ -13,7 +15,7 @@
 }
 else
 {
-    <table class="@Template.TableStyle">
+    <table class="table">
         <thead>
             <tr>
                 <th>Date</th>
@@ -37,10 +39,7 @@ else
 }
 
 @code {
-    [CascadingParameter(Name ="MainTheme")]
-    public ThemeTemplate Template { get; set; }
-
-    private WeatherForecast[] forecasts;
+    private WeatherForecast[]? forecasts;
 
     protected override async Task OnInitializedAsync()
     {

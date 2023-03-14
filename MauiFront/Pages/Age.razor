@@ -1,0 +1,23 @@
+﻿@page "/age"
+
+<PageTitle>Калькулятор возраста</PageTitle>
+
+<p>Выберите дату своего рождения:</p>
+<input  type="date" @bind="data" >
+<button class="btn btn-primary" @onclick="@CalcAge">Рассчитать возраст</button>
+
+<p>Ваш возраст: @age лет</p>
+
+
+@code
+{
+
+    DateOnly data = DateOnly.FromDateTime(DateTime.Now);
+    int age = 0;
+
+    public void CalcAge()
+    {
+        age = DateTime.Now.Year - data.Year;
+
+    }
+}
