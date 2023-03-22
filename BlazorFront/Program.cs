@@ -1,6 +1,5 @@
-using BlazorFront.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using BlazorFront.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorFront
 {
@@ -13,7 +12,13 @@ namespace BlazorFront
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-            builder.Services.AddSingleton<WeatherForecastService>();
+
+            builder.Services.AddOptions();
+            builder.Services.AddAuthorizationCore();
+
+            builder.Services.AddSingleton<ApplicationContext>();
+            builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthenticationStateProvider>();
+            builder.Services.AddScoped<UserService>();
 
             var app = builder.Build();
 
