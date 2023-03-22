@@ -1,5 +1,4 @@
 using BlazorFront.Services;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorFront
 {
@@ -17,7 +16,7 @@ namespace BlazorFront
             builder.Services.AddAuthorizationCore();
 
             builder.Services.AddSingleton<ApplicationContext>();
-            builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthenticationStateProvider>();
+            //builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthenticationStateProvider>();
             builder.Services.AddScoped<UserService>();
 
             var app = builder.Build();
