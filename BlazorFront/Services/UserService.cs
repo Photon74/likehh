@@ -8,13 +8,14 @@ public class UserService : ComponentBase
     private readonly ApplicationContext _context;
     private readonly NavigationManager _navigationManager;
 
-    public UserService(ApplicationContext context, NavigationManager navigationManager)
+    public UserService(ApplicationContext context,
+                       NavigationManager navigationManager)
     {
         _context = context;
         _navigationManager = navigationManager;
     }
 
-    public async Task GetUserByEmail(User user)
+    public async Task<bool> GetUserByEmail(User user)
     {
         if (!UserExists(user.Email))
         {
@@ -25,14 +26,17 @@ public class UserService : ComponentBase
             });
             await _context.SaveChangesAsync();
             _navigationManager.NavigateTo("/profile");
+            return true;
         }
         else if (!PasswordCorrect(user))
         {
             _navigationManager.NavigateTo("/counter");
+            return false;
         }
         else
         {
             _navigationManager.NavigateTo("/profile");
+            return true;
         }
     }
 

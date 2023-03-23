@@ -1,4 +1,7 @@
-﻿@inject BlazorFront.Services.UserService _service;
+﻿@using BlazorFront.Services;
+@inject BlazorFront.Services.UserService _service
+@inject StateService StateService
+@implements IDisposable
 
 <div class="form1">
 <EditForm EditContext="editContext" OnSubmit="SendForm">
@@ -18,12 +21,16 @@
         <div class="row-sm-10">
             <InputText type="password" @bind-Value="user.Password" class="form-control" id="password" />
             <ValidationMessage For="@(() => user.Password)" />
+                @if(!IsOk)
+                {
+                    <span style="color: red">Неверный пароль!</span>
+                }
         </div>
     </div>
 
     <button type="submit"
             class="btn btn-primary">
-        Submit
+        Вход
     </button>
 
 </EditForm>
@@ -32,18 +39,29 @@
 @code {
     User user = new();
     EditContext editContext = null!;
+    bool IsOk = true;
 
     protected override void OnInitialized()
     {
         editContext = new EditContext(user);
+        StateService.IsLoginChanged += OnIsLoginChanged;
     }
 
     async Task SendForm()
     {
         if (editContext.Validate())
         {
-            await _service.GetUserByEmail(user);
-            //StateHasChanged();
+            IsOk = await _service.GetUserByEmail(user);
+            if (IsOk) StateService.LogInChange(this);
         }
+    }
+    public void Dispose()
+    {
+        StateService.IsLoginChanged -= OnIsLoginChanged;
+    }
+
+    private void OnIsLoginChanged(ComponentBase sender, bool yes)
+    {
+        StateHasChanged();
     }
 }

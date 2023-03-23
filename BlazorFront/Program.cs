@@ -18,6 +18,7 @@ namespace BlazorFront
             builder.Services.AddSingleton<ApplicationContext>();
             //builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthenticationStateProvider>();
             builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<StateService>();
 
             var app = builder.Build();
 
