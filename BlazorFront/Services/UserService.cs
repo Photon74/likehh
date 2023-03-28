@@ -7,15 +7,18 @@ public class UserService : ComponentBase
 {
     private readonly ApplicationContext _context;
     private readonly NavigationManager _navigationManager;
+    private readonly StateService _stateService;
 
     public UserService(ApplicationContext context,
-                       NavigationManager navigationManager)
+                       NavigationManager navigationManager,
+                       StateService stateService)
     {
         _context = context;
         _navigationManager = navigationManager;
+        _stateService = stateService;
     }
 
-    public async Task<bool> GetUserByEmail(User user)
+    public async Task<bool> GetUserByEmail(UserDto user)
     {
         if (!UserExists(user.Email))
         {
@@ -45,10 +48,15 @@ public class UserService : ComponentBase
         return _context.Users.Any(e => e.Email == email);
     }
 
-    private bool PasswordCorrect(User user)
+    private bool PasswordCorrect(UserDto user)
     {
         var bdUser = _context.Users.SingleOrDefault(t => t.Email == user.Email);
-        var res = bdUser != null ? bdUser.Password == user.Password : false;
+        var res = bdUser != null && bdUser.Password == user.Password;
         return res;
+    }
+
+    public Models.User GetUser(string email)
+    {
+        return _context.Users.SingleOrDefault(e => e.Email == email);
     }
 }

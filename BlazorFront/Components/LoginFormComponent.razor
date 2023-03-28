@@ -1,0 +1,71 @@
+﻿@inject UserService _userService
+@inject StateService StateService
+@implements IDisposable
+
+<div class="form1">
+    <EditForm EditContext="editContext" OnSubmit="SendForm">
+        <DataAnnotationsValidator />
+        <h3>Вход / Регистрация</h3>
+
+        <div class="row mb-3">
+            <label for="email" class="col-sm-2 col-form-label">Электронная почта</label>
+            <div class="row-sm-10">
+                <InputText type="email" @bind-Value="user.Email" class="form-control" id="email" />
+                <ValidationMessage For="@(() => user.Email)" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="password" class="col-sm-2 col-form-label">Пароль</label>
+            <div class="row-sm-10">
+                <InputText type="password" @bind-Value="user.Password" class="form-control" id="password" />
+                <ValidationMessage For="@(() => user.Password)" />
+                @if (!IsOk)
+                {
+                    <span style="color: red">Неверный пароль!</span>
+                }
+            </div>
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Вход
+        </button>
+
+    </EditForm>
+</div>
+
+@code {
+    UserDto user = new();
+    EditContext editContext = null!;
+    bool IsOk = true;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(user);
+        StateService.IsLoginChanged += OnIsLoginChanged;
+    }
+
+    async Task SendForm()
+    {
+        if (editContext.Validate())
+        {
+            IsOk = await _userService.GetUserByEmail(user);
+            if (IsOk)
+            {
+                StateService.LogInChange(this);
+                StateService.SetUser(_userService.GetUser(user.Email));
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        StateService.IsLoginChanged -= OnIsLoginChanged;
+    }
+
+    private void OnIsLoginChanged(ComponentBase sender, bool yes)
+    {
+        StateHasChanged();
+    }
+}

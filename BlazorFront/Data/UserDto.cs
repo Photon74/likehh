@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BlazorFront.Data
 {
-    public class User
+    public class UserDto
     {
         [Required(ErrorMessage = "Введите E-mail")]
         [EmailAddress(ErrorMessage = "Это не похоже на E-mail")]

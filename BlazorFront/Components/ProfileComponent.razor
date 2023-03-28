@@ -1,4 +1,6 @@
-﻿<div class="row ">
+﻿@if(Profile != null)
+{
+    <div class="row ">
     <div class="col">
         <div class="row" style="font: 26px bold">
             Колодинский Александр Валериевич
@@ -29,11 +31,34 @@
         <img src="./img/5789389895814665938.jpg" width="120px" />
     </div>
 
-</div>
-<hr/>
+    </div>
+}
+else
+{
+    <h3>Профиль отсутствует</h3>
+    <button class="btn btn-outline-secondary" @onclick=@(() => ShowProfileDialog())>Добавить данные</button>
+}
+<hr />
+
+@if (showProfileDialog)
+{
+    <AddProfile User="User" />
+}
+
 
 
 
 @code {
+    [Parameter]
+    public Models.Profile? Profile { get; set; } = null;
 
+    [Parameter]
+    public Models.User? User { get; set; }
+
+    bool showProfileDialog;
+
+    void ShowProfileDialog()
+    {
+        showProfileDialog = true;
+    }
 }

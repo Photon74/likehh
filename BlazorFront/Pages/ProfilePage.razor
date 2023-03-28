@@ -1,9 +1,44 @@
 ﻿@page "/profile"
+@inject StateService _stateService
+@inject ApplicationContext _context
 
-<Profile />
+@if (_stateService.User != null)
+{
+    @_stateService.User.Id
+    @_stateService.User.Email
+    @_stateService.User.Password
+}
 
-<Resume />
+<ProfileComponent Profile="Profile" User="user" />
+
+@if(Profile != null)
+{
+    @if (Profile.Role == Models.Role.Employee)
+    {
+        <ResumeComponent />
+    }
+    else
+    {
+        <VacancyComponent />
+    }
+}
+
 
 @code {
+    public Models.Profile? Profile { get; set; } = new();
+    public Models.User? user { get; set; } = new();
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (_stateService.User == null)
+        {
+            Profile = null;
+        }
+        else
+        {
+            Profile = _context.Profiles.SingleOrDefault(p => p.User.Id == _stateService.User.Id);
+            user = _stateService.User;
+        }
+    }
 }

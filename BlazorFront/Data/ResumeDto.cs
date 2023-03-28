@@ -1,8 +1,8 @@
 ﻿namespace BlazorFront.Data
 {
-    public class Resume
+    public class ResumeDto
     {
         public int Id { get; set; }
-        public Profile Profile { get; set; }
+        public ProfileDto Profile { get; set; }
     }
 }

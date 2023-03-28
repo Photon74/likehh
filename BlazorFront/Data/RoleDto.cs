@@ -1,8 +1,7 @@
 ﻿namespace BlazorFront.Data
 {
-    public enum Role
+    public enum RoleDto
     {
-        None,
         Employer,
         Employee
     }

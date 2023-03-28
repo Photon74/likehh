@@ -1,0 +1,109 @@
+﻿@using BlazorFront.Models;
+@inject StateService _stateService
+
+<div class="modal">
+    <div class="modal-window">
+        <div class="modal-header">
+            Данные профиля @_stateService.User?.Email
+        </div>
+        <div class="modal-body ">
+            <form class="container" @onsubmit="SendForm">
+                <div class="row g-3">
+                    <div class="col">
+                        <div class="row">
+                            <label>Фамилия</label>
+                            <input type="text" @bind="@Profile.LastName" />
+                        </div>
+                        <div class="row">
+                            <label>Имя</label>
+                            <input type="text" @bind="@profile.FirstName" />
+                        </div>
+                        <div class="row">
+                            <label>Отчество</label>
+                            <input type="text" @bind="@profile.Patronymic" />
+                        </div>
+                        <div class="row">
+                            <label>Телефон</label>
+                            <input type="tel" @bind="@profile.Phone" />
+                        </div>
+                        <div class="row">
+                            <label>Дата рождения</label>
+                            <input type="date" @bind="@profile.Birthday" />
+                        </div>
+                        <div class="row">
+                            <label>Роль</label>
+                            <select class="form-select">
+                                <option selected>...</option>
+                                <option>Работодатель</option>
+                                <option>Соискатель</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="file-uploader">
+                                <label for="file-loader-button">
+                                    Фото
+                                    <input id="file-loader-button"
+                                           type="file"
+                                           @onchange="HandleOnChange" @onchange:preventDefault
+                                           class="file-uploader__upload-button" />
+                                    <img src="@profile.Photo"
+                                         class="file-uploader__preview"
+                                         alt="preview"
+                                         @ondrop="HandleDrop" @ondrop:preventDefault @ondrop:stopPropagation
+                                         @ondragenter="HandleDragEmpty" @ondragenter:preventDefault @ondragenter:stopPropagation
+                                         @ondragover="HandleDragEmpty" @ondragover:preventDefault @ondragover:stopPropagation />
+                                </label>
+                                <p>@PhotoName</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <button class="btn-close"></button>
+    </div>
+    <div class="overlay"></div>
+</div>
+
+@code {
+    [Parameter]
+    public Profile Profile { get; set; } = new();
+
+    [Parameter]
+    public User User { get; set; } = new();
+
+    ProfileDto profile;
+
+    string PhotoName = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        profile = new()
+            {
+                Birthday = DateOnly.FromDateTime(DateTime.Now),
+                Photo = Profile.Photo != null ? Profile.Photo : "../img/no_photo.jpg",
+
+            };
+
+    }
+
+    void SendForm()
+    {
+
+    }
+
+    void HandleDrop(DragEventArgs args)
+    {
+
+    }
+
+    void HandleOnChange(ChangeEventArgs args)
+    {
+        PhotoName = Profile.Photo != null ? Profile.Photo : string.Empty;
+        StateHasChanged();
+    }
+
+    void HandleDragEmpty() { StateHasChanged(); }
+}
